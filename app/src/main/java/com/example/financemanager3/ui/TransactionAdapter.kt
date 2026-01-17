@@ -33,6 +33,9 @@ class TransactionAdapter(private var transactions: List<Transaction>) :
         notifyDataSetChanged()
     }
 
+    fun getTransactionAt(position: Int): Transaction {
+        return transactions[position]
+    }
     class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView = itemView.findViewById(R.id.tv_transaction_name)
         private val categoryTextView: TextView = itemView.findViewById(R.id.tv_transaction_category)

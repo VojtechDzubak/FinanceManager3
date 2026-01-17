@@ -37,6 +37,12 @@ class AddTransactionDialogFragment : DialogFragment() {
         etDate = view.findViewById(R.id.et_transaction_date)
         categorySpinner = view.findViewById(R.id.spinner_category)
 
+        // --- PŘIDÁNO: Nastavení aktuálního data ---
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        etDate.setText(dateFormat.format(calendar.time))
+        // ------------------------------------------
+
         val categories = if (transactionType == TransactionType.INCOME) {
             CategoryDataSource.incomeCategories
         } else {
@@ -57,7 +63,12 @@ class AddTransactionDialogFragment : DialogFragment() {
         view.findViewById<Button>(R.id.btn_add).setOnClickListener {
             val name = etName.text.toString()
             val amount = etAmount.text.toString().toDoubleOrNull()
-            val date = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(etDate.text.toString())
+            // Zde už není potřeba try-catch, protože datum je vždy validní (předvyplněné nebo z dialogu)
+            val date = try {
+                dateFormat.parse(etDate.text.toString())
+            } catch (e: Exception) {
+                null
+            }
             val category = categorySpinner.selectedItem.toString()
 
             if (name.isNotEmpty() && amount != null && date != null) {
@@ -79,6 +90,17 @@ class AddTransactionDialogFragment : DialogFragment() {
 
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
+        // Zkusíme načíst datum z textového pole, aby se dialog otevřel na aktuálně zobrazeném datu
+        try {
+            val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+            val currentDate = dateFormat.parse(etDate.text.toString())
+            if (currentDate != null) {
+                calendar.time = currentDate
+            }
+        } catch (e: Exception) {
+            // Ignorujeme chybu, použije se dnešek
+        }
+
         val datePickerDialog = DatePickerDialog(
             requireContext(),
             { _, year, month, dayOfMonth ->

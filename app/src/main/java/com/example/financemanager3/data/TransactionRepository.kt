@@ -66,19 +66,36 @@ object TransactionRepository {
         saveData() // Uložit po přidání
     }
 
-    // Metoda pro načtení dat ze souboru
+    fun deleteTransaction(transaction: Transaction) {
+        // Najdeme a odstraníme transakci ze seznamu
+        // (Díky data class funguje porovnání objektů automaticky)
+        allTransactions.remove(transaction)
+        saveData()
+        updateLiveData()
+    }
+
+    // UPRAVENÁ METODA: Bezpečné načítání
     private fun loadData() {
         if (dataFile.exists()) {
             try {
                 val jsonString = dataFile.readText()
                 val type = object : TypeToken<List<Transaction>>() {}.type
-                val loadedTransactions: List<Transaction> = gson.fromJson(jsonString, type)
+                val loadedTransactions: List<Transaction>? = gson.fromJson(jsonString, type)
 
                 allTransactions.clear()
-                allTransactions.addAll(loadedTransactions)
+                if (loadedTransactions != null) {
+                    allTransactions.addAll(loadedTransactions)
+                }
                 updateLiveData()
+
             } catch (e: Exception) {
+                // Zde zachytíme chybu (např. poškozený JSON)
                 e.printStackTrace()
+
+                // Pokud je soubor poškozený, vytvoříme nový prázdný seznam
+                // a přepíšeme tím poškozený soubor, aby aplikace mohla dál fungovat.
+                allTransactions.clear()
+                saveData() // Vytvoří nový validní (prázdný) JSON
             }
         }
     }
