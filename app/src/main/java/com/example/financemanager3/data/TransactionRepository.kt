@@ -1,11 +1,15 @@
 package com.example.financemanager3.data
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.financemanager3.model.MonthlyStat
 import com.example.financemanager3.model.Transaction
 import com.example.financemanager3.model.TransactionType
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.File
 import java.util.Calendar
 import java.util.Date
 
@@ -25,6 +29,17 @@ object TransactionRepository {
     private val _monthlyStats = MediatorLiveData<List<MonthlyStat>>()
     val monthlyStats: LiveData<List<MonthlyStat>> = _monthlyStats
 
+    // Proměnné pro ukládání
+    private const val FILE_NAME = "transactions.json"
+    private lateinit var dataFile: File
+    private val gson = Gson()
+
+    // Inicializace repozitáře s Contextem
+    fun initialize(context: Context) {
+        dataFile = File(context.filesDir, FILE_NAME)
+        loadData()
+    }
+
     init {
         _selectedDate.value = Calendar.getInstance()
 
@@ -39,7 +54,7 @@ object TransactionRepository {
 
     fun addTransaction(name: String, amount: Double, date: Date, type: TransactionType, category: String) {
         val newTransaction = Transaction(
-            id = (allTransactions.size + 1).toLong(),
+            id = System.currentTimeMillis(), // Použijeme čas jako unikátní ID
             name = name,
             amount = amount,
             date = date,
@@ -47,6 +62,38 @@ object TransactionRepository {
             category = category
         )
         allTransactions.add(newTransaction)
+        updateLiveData()
+        saveData() // Uložit po přidání
+    }
+
+    // Metoda pro načtení dat ze souboru
+    private fun loadData() {
+        if (dataFile.exists()) {
+            try {
+                val jsonString = dataFile.readText()
+                val type = object : TypeToken<List<Transaction>>() {}.type
+                val loadedTransactions: List<Transaction> = gson.fromJson(jsonString, type)
+
+                allTransactions.clear()
+                allTransactions.addAll(loadedTransactions)
+                updateLiveData()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    // Metoda pro uložení dat do souboru
+    private fun saveData() {
+        try {
+            val jsonString = gson.toJson(allTransactions)
+            dataFile.writeText(jsonString)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun updateLiveData() {
         _allTransactionsLiveData.value = allTransactions.toList()
     }
 
@@ -70,9 +117,9 @@ object TransactionRepository {
             val transactionCalendar = Calendar.getInstance()
             transactionCalendar.time = it.date
             transactionCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
-            transactionCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)
+                    transactionCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)
         }
-        
+
         transactionsLiveData.value = filtered.sortedWith(compareByDescending<Transaction> { it.date }.thenByDescending { it.createdAt })
     }
 
