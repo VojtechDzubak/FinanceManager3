@@ -52,7 +52,7 @@ class MonthDetailDialogFragment : DialogFragment() {
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 
         // Načtení dat a výpočet statistik
-        viewModel.transactions.observe(viewLifecycleOwner) { allTransactions ->
+        viewModel.allTransactions.observe(viewLifecycleOwner) { allTransactions ->
 
             // 1. Vyfiltrujeme transakce pouze pro tento měsíc a rok
             val monthTransactions = allTransactions.filter {

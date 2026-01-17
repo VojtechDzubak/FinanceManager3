@@ -9,6 +9,8 @@ import java.util.Date
 class TransactionViewModel : ViewModel() {
 
     val transactions = TransactionRepository.transactionsLiveData
+
+    val allTransactions = TransactionRepository.allTransactionsLiveData
     val totalIncome = TransactionRepository.totalIncome
     val totalExpenses = TransactionRepository.totalExpenses
     val balance = TransactionRepository.balance

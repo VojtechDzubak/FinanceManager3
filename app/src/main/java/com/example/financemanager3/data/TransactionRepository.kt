@@ -18,6 +18,7 @@ object TransactionRepository {
     private val allTransactions = mutableListOf<Transaction>()
     private val _allTransactionsLiveData = MutableLiveData<List<Transaction>>()
 
+    val allTransactionsLiveData: LiveData<List<Transaction>> = _allTransactionsLiveData
     private val _selectedDate = MutableLiveData<Calendar>()
     val selectedDate: LiveData<Calendar> = _selectedDate
 
