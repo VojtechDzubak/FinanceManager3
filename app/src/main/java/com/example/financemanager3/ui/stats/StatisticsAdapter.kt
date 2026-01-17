@@ -13,8 +13,11 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class StatisticsAdapter(private var stats: List<MonthlyStat>) :
-    RecyclerView.Adapter<StatisticsAdapter.StatisticsViewHolder>() {
+// ZMĚNA 1: Přidali jsme 'private val onMonthClick: (MonthlyStat) -> Unit' do konstruktoru
+class StatisticsAdapter(
+    private var stats: List<MonthlyStat>,
+    private val onMonthClick: (MonthlyStat) -> Unit
+) : RecyclerView.Adapter<StatisticsAdapter.StatisticsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatisticsViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -23,7 +26,13 @@ class StatisticsAdapter(private var stats: List<MonthlyStat>) :
     }
 
     override fun onBindViewHolder(holder: StatisticsViewHolder, position: Int) {
-        holder.bind(stats[position])
+        val stat = stats[position]
+        holder.bind(stat)
+
+        // ZMĚNA 2: Nastavení reakce na kliknutí
+        holder.itemView.setOnClickListener {
+            onMonthClick(stat)
+        }
     }
 
     override fun getItemCount(): Int = stats.size
@@ -34,6 +43,7 @@ class StatisticsAdapter(private var stats: List<MonthlyStat>) :
     }
 
     class StatisticsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        // ... (zbytek třídy zůstává stejný)
         private val monthYearTextView: TextView = itemView.findViewById(R.id.tv_month_year)
         private val incomeTextView: TextView = itemView.findViewById(R.id.tv_stat_income)
         private val expensesTextView: TextView = itemView.findViewById(R.id.tv_stat_expenses)

@@ -21,7 +21,13 @@ class StatisticsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_statistics, container, false)
 
-        statisticsAdapter = StatisticsAdapter(emptyList())
+        // ZMĚNA: Do adaptéru posíláme funkci, která se provede při kliknutí
+        statisticsAdapter = StatisticsAdapter(emptyList()) { clickedStat ->
+            // Kód, který se provede po kliknutí na měsíc:
+            MonthDetailDialogFragment.newInstance(clickedStat.year, clickedStat.month)
+                .show(parentFragmentManager, "MonthDetailDialog")
+        }
+
         view.findViewById<RecyclerView>(R.id.rv_statistics).adapter = statisticsAdapter
 
         viewModel.monthlyStats.observe(viewLifecycleOwner) { stats ->
