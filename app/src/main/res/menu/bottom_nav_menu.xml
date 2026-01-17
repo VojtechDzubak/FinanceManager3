@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/allTransactionsFragment"
+        android:title="Vše"
+        android:icon="@drawable/ic_view_list" />
+    <item
+        android:id="@+id/expensesFragment"
+        android:title="Výdaje"
+        android:icon="@drawable/ic_arrow_downward" />
+    <item
+        android:id="@+id/incomeFragment"
+        android:title="Příjmy"
+        android:icon="@drawable/ic_arrow_upward" />
+    <item
+        android:id="@+id/statisticsFragment"
+        android:title="Statistiky"
+        android:icon="@drawable/ic_bar_chart" />
+</menu>

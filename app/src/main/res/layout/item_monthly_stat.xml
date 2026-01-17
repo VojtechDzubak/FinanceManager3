@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_month_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Leden 2025"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Příjmy:" />
+
+        <TextView
+            android:id="@+id/tv_stat_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ 15 000 Kč"
+            android:textColor="@android:color/holo_green_dark" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Výdaje:" />
+
+        <TextView
+            android:id="@+id/tv_stat_expenses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- 5 000 Kč"
+            android:textColor="@android:color/holo_red_dark" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Balance:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_stat_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 000 Kč"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/allTransactionsFragment">
+
+    <fragment
+        android:id="@+id/allTransactionsFragment"
+        android:name="com.example.financemanager3.ui.all.AllTransactionsFragment"
+        android:label="fragment_all_transactions"
+        tools:layout="@layout/fragment_all_transactions" />
+    <fragment
+        android:id="@+id/incomeFragment"
+        android:name="com.example.financemanager3.ui.income.IncomeFragment"
+        android:label="fragment_income"
+        tools:layout="@layout/fragment_income" />
+    <fragment
+        android:id="@+id/expensesFragment"
+        android:name="com.example.financemanager3.ui.expenses.ExpensesFragment"
+        android:label="fragment_expenses"
+        tools:layout="@layout/fragment_expenses" />
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.example.financemanager3.ui.stats.StatisticsFragment"
+        android:label="fragment_statistics"
+        tools:layout="@layout/fragment_statistics" />
+</navigation>

@@ -1,0 +1,28 @@
+package com.example.financemanager3.ui
+
+import androidx.lifecycle.ViewModel
+import com.example.financemanager3.data.TransactionRepository
+import com.example.financemanager3.model.TransactionType
+import java.util.Date
+
+class TransactionViewModel : ViewModel() {
+
+    val transactions = TransactionRepository.transactionsLiveData
+    val totalIncome = TransactionRepository.totalIncome
+    val totalExpenses = TransactionRepository.totalExpenses
+    val balance = TransactionRepository.balance
+    val selectedDate = TransactionRepository.selectedDate
+    val monthlyStats = TransactionRepository.monthlyStats
+
+    fun addTransaction(name: String, amount: Double, date: Date, type: TransactionType, category: String) {
+        TransactionRepository.addTransaction(name, amount, date, type, category)
+    }
+
+    fun selectNextMonth() {
+        TransactionRepository.selectNextMonth()
+    }
+
+    fun selectPreviousMonth() {
+        TransactionRepository.selectPreviousMonth()
+    }
+}
